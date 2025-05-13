@@ -1,4 +1,4 @@
-name: Build
+name: Build UsmDemuxer
 
 on:
   push:
@@ -25,7 +25,7 @@ jobs:
         run: msbuild UsmDemuxer.sln /p:Configuration=Release
 
       - name: Upload built EXE as artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: UsmDemuxer-build
           path: |
