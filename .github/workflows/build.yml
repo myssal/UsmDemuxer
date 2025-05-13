@@ -1,0 +1,32 @@
+name: Build
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    name: Build on Windows
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Restore NuGet packages
+        run: nuget restore UsmDemuxer.sln
+
+      - name: Build with MSBuild
+        run: msbuild UsmDemuxer.sln /p:Configuration=Release
+
+      - name: Upload built EXE as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: UsmDemuxer-build
+          path: |
+            UsmDemuxer/bin/Release/
